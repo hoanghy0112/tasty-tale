@@ -1,5 +1,6 @@
 import {
   CreateDateColumn,
+  DeleteDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -19,6 +20,11 @@ export abstract class BaseEntity<DTO extends BaseDto = BaseDto, O = never> {
     type: 'timestamp',
   })
   updatedAt!: Date;
+
+  @DeleteDateColumn({
+    type: 'timestamp',
+  })
+  deleteAt!: Date;
 
   public dtoClass?: Constructor<DTO, [BaseEntity, O?]>;
 

@@ -29,7 +29,7 @@ export class RecipeService {
     return this.recipeRepository.save(recipe);
   }
 
-  findByid(id: string) {
+  findById(id: string) {
     return this.recipeRepository.findOne({
       where: { id },
       relations: {
@@ -40,5 +40,9 @@ export class RecipeService {
         user: true,
       },
     });
+  }
+
+  remove(id: string) {
+    return this.recipeRepository.softDelete({ id });
   }
 }

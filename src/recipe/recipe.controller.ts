@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -11,8 +12,8 @@ import {
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { AuthenticatedRequest } from 'src/auth/request.type';
 import { CreateRecipeDto } from './dto/create-recipe/create-recipe.dto';
-import { RecipeService } from './recipe.service';
 import { UpdateRecipeDto } from './dto/update-recipe/update-recipe.dto';
+import { RecipeService } from './recipe.service';
 
 @Controller('/v1/recipe')
 export class RecipeController {
@@ -39,6 +40,11 @@ export class RecipeController {
 
   @Get(':id')
   findById(@Param('id') id: string) {
-    return this.recipeService.findByid(id);
+    return this.recipeService.findById(id);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.recipeService.remove(id);
   }
 }
