@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
-import { Column, Entity } from 'typeorm';
+import { GroupEntity } from 'src/group/entities/group.entity';
+import { Column, Entity, ManyToMany } from 'typeorm';
 
 @Entity({
   name: 'user',
@@ -19,4 +20,7 @@ export class UserEntity extends BaseEntity {
 
   @Column({ nullable: false })
   googleId: string;
+
+  @ManyToMany(() => GroupEntity, (group) => group.users)
+  groups: GroupEntity[];
 }
