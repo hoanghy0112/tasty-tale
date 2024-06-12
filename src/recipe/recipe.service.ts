@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from 'src/user/dto/user.dto';
 import { Repository } from 'typeorm';
 import { CreateRecipeDto } from './dto/create-recipe/create-recipe.dto';
+import { UpdateRecipeDto } from './dto/update-recipe/update-recipe.dto';
 import { RecipeEntity } from './entities/recipe.entity';
 
 @Injectable()
@@ -16,7 +17,28 @@ export class RecipeService {
     return this.recipeRepository.save(createRecipeDto);
   }
 
+  async update(id: string, updateRecipeDto: UpdateRecipeDto, userDto: UserDto) {
+    const recipe = await this.recipeRepository.findOne({
+      where: { id },
+      relations: { user: true },
+    });
+
+    if (recipe.user.id != userDto.id) throw new ForbiddenException();
+
+    Object.assign(recipe, updateRecipeDto);
+    return this.recipeRepository.save(recipe);
+  }
+
   findByid(id: string) {
-    return this.recipeRepository.findOneBy({ id });
+    return this.recipeRepository.findOne({
+      where: { id },
+      relations: {
+        ingredients: true,
+        steps: {
+          images: true,
+        },
+        user: true,
+      },
+    });
   }
 }

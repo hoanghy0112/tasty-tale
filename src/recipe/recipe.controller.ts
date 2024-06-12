@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Request,
   UseGuards,
@@ -11,6 +12,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { AuthenticatedRequest } from 'src/auth/request.type';
 import { CreateRecipeDto } from './dto/create-recipe/create-recipe.dto';
 import { RecipeService } from './recipe.service';
+import { UpdateRecipeDto } from './dto/update-recipe/update-recipe.dto';
 
 @Controller('/v1/recipe')
 export class RecipeController {
@@ -23,6 +25,16 @@ export class RecipeController {
     @Request() req: AuthenticatedRequest,
   ) {
     return this.recipeService.create({ ...createRecipeDto, user: req.user });
+  }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  update(
+    @Param('id') id: string,
+    @Body() updateRecipeDto: UpdateRecipeDto,
+    @Request() req: AuthenticatedRequest,
+  ) {
+    return this.recipeService.update(id, updateRecipeDto, req.user);
   }
 
   @Get(':id')
