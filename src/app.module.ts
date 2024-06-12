@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { GroupModule } from './group/group.module';
 import { AuthModule } from './auth/auth.module';
+import { RecipeModule } from './recipe/recipe.module';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
     AuthModule,
     GroupModule,
+    RecipeModule,
+    ImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
