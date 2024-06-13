@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { RecipeModule } from './recipe/recipe.module';
 import { ImageModule } from './image/image.module';
 import { PostModule } from './post/post.module';
+import { PlaylistModule } from './playlist/playlist.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { PostModule } from './post/post.module';
     RecipeModule,
     ImageModule,
     PostModule,
+    PlaylistModule,
   ],
   controllers: [AppController],
   providers: [AppService],
