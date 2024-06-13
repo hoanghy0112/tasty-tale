@@ -5,12 +5,14 @@ import { In, Repository } from 'typeorm';
 import { CreateRecipeDto } from './dto/create-recipe/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe/update-recipe.dto';
 import { RecipeEntity } from './entities/recipe.entity';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class RecipeService {
   constructor(
     @InjectRepository(RecipeEntity)
     private readonly recipeRepository: Repository<RecipeEntity>,
+    private readonly userService: UserService,
   ) {}
 
   create(createRecipeDto: CreateRecipeDto & { user: UserDto }) {
@@ -27,6 +29,31 @@ export class RecipeService {
 
     Object.assign(recipe, updateRecipeDto);
     return this.recipeRepository.save(recipe);
+  }
+
+  async like(recipeId: string, userId: string) {
+    const recipe = await this.recipeRepository.findOneBy({ id: recipeId });
+    const user = await this.userService.findById(userId, { likes: true });
+
+    user.likes = [
+      ...user.likes.filter((like) => like.id !== recipe.id),
+      recipe,
+    ];
+
+    await this.userService.update(user);
+
+    return user.likes.length;
+  }
+
+  async unlike(recipeId: string, userId: string) {
+    const recipe = await this.recipeRepository.findOneBy({ id: recipeId });
+    const user = await this.userService.findById(userId, { likes: true });
+
+    user.likes = [...user.likes.filter((like) => like.id !== recipe.id)];
+
+    await this.userService.update(user);
+
+    return user.likes.length;
   }
 
   findById(id: string) {

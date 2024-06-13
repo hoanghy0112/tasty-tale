@@ -43,6 +43,26 @@ export class RecipeController {
     return this.recipeService.findById(id);
   }
 
+  @Post(':id/like')
+  @UseGuards(JwtAuthGuard)
+  async like(
+    @Param('id') id: string,
+    @Request() request: AuthenticatedRequest,
+  ) {
+    const likes = await this.recipeService.like(id, request.user.id);
+    return { likes };
+  }
+
+  @Post(':id/unlike')
+  @UseGuards(JwtAuthGuard)
+  async unlike(
+    @Param('id') id: string,
+    @Request() request: AuthenticatedRequest,
+  ) {
+    const likes = await this.recipeService.unlike(id, request.user.id);
+    return { likes };
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.recipeService.remove(id);

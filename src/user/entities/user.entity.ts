@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { GroupEntity } from 'src/group/entities/group.entity';
-import { Column, Entity, ManyToMany } from 'typeorm';
+import { RecipeEntity } from 'src/recipe/entities/recipe.entity';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 
 @Entity({
   name: 'user',
@@ -23,4 +24,8 @@ export class UserEntity extends BaseEntity {
 
   @ManyToMany(() => GroupEntity, (group) => group.users)
   groups: GroupEntity[];
+
+  @ManyToMany(() => RecipeEntity)
+  @JoinTable()
+  likes: RecipeEntity[];
 }
