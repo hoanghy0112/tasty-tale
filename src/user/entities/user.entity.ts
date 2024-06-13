@@ -25,7 +25,7 @@ export class UserEntity extends BaseEntity {
   @ManyToMany(() => GroupEntity, (group) => group.users)
   groups: GroupEntity[];
 
-  @ManyToMany(() => RecipeEntity)
+  @ManyToMany(() => RecipeEntity, (recipe) => recipe.likedUsers)
   @JoinTable()
   likes: RecipeEntity[];
 }

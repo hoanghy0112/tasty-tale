@@ -56,8 +56,8 @@ export class RecipeService {
     return user.likes.length;
   }
 
-  findById(id: string) {
-    return this.recipeRepository.findOne({
+  async findById(id: string) {
+    const result = await this.recipeRepository.findOne({
       where: { id },
       relations: {
         ingredients: true,
@@ -65,8 +65,14 @@ export class RecipeService {
           images: true,
         },
         user: true,
+        likedUsers: true,
       },
     });
+    return {
+      ...result,
+      likes: result.likedUsers.length,
+      likedUsers: undefined,
+    };
   }
 
   findByIds(ids: string[]) {

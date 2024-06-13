@@ -1,6 +1,6 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { IngredientEntity } from './ingredient.entity';
 import { StepEntity } from './step.entity';
 
@@ -27,4 +27,7 @@ export class RecipeEntity extends BaseEntity {
 
   @ManyToOne(() => UserEntity)
   user: UserEntity;
+
+  @ManyToMany(() => UserEntity, (user) => user.likes)
+  likedUsers: UserEntity[];
 }
