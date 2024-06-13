@@ -1,11 +1,11 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from 'src/user/dto/user.dto';
+import { UserService } from 'src/user/user.service';
 import { In, Repository } from 'typeorm';
 import { CreateRecipeDto } from './dto/create-recipe/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe/update-recipe.dto';
 import { RecipeEntity } from './entities/recipe.entity';
-import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class RecipeService {
@@ -73,6 +73,9 @@ export class RecipeService {
       ...result,
       likes: result.likedUsers.length,
       reviewNum: result.reviews.length,
+      averageRating:
+        result.reviews.reduce((total, review) => total + review.rating, 0) /
+        (result.reviews.length || 1),
       likedUsers: undefined,
       reviews: undefined,
     };
