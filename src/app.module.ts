@@ -8,6 +8,7 @@ import { GroupModule } from './group/group.module';
 import { AuthModule } from './auth/auth.module';
 import { RecipeModule } from './recipe/recipe.module';
 import { ImageModule } from './image/image.module';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ImageModule } from './image/image.module';
     GroupModule,
     RecipeModule,
     ImageModule,
+    PostModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from 'src/user/dto/user.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateRecipeDto } from './dto/create-recipe/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe/update-recipe.dto';
 import { RecipeEntity } from './entities/recipe.entity';
@@ -38,6 +38,14 @@ export class RecipeService {
           images: true,
         },
         user: true,
+      },
+    });
+  }
+
+  findByIds(ids: string[]) {
+    return this.recipeRepository.find({
+      where: {
+        id: In(ids),
       },
     });
   }

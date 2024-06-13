@@ -12,5 +12,6 @@ import { RecipeService } from './recipe.service';
   ],
   controllers: [RecipeController],
   providers: [RecipeService],
+  exports: [RecipeService],
 })
 export class RecipeModule {}
