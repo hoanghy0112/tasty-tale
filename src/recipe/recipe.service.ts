@@ -66,12 +66,15 @@ export class RecipeService {
         },
         user: true,
         likedUsers: true,
+        reviews: true,
       },
     });
     return {
       ...result,
       likes: result.likedUsers.length,
+      reviewNum: result.reviews.length,
       likedUsers: undefined,
+      reviews: undefined,
     };
   }
 

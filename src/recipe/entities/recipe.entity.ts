@@ -1,4 +1,5 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
+import { ReviewEntity } from 'src/review/entities/review.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { IngredientEntity } from './ingredient.entity';
@@ -30,4 +31,7 @@ export class RecipeEntity extends BaseEntity {
 
   @ManyToMany(() => UserEntity, (user) => user.likes)
   likedUsers: UserEntity[];
+
+  @OneToMany(() => ReviewEntity, (review) => review.recipe)
+  reviews: ReviewEntity[];
 }
