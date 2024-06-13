@@ -17,6 +17,9 @@ export class UserEntity extends BaseEntity {
   address: string;
 
   @Column({ nullable: false })
+  photoUrl: string;
+
+  @Column({ nullable: false })
   phone: string;
 
   @Column({ nullable: false })

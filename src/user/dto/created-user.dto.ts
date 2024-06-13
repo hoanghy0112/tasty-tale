@@ -5,4 +5,5 @@ export class CreatedUserDto {
   googleId: string;
   displayname: string;
   email: string;
+  photoUrl: string;
 }
