@@ -12,7 +12,7 @@ export class UserService {
   ) {}
 
   create(createdUserDto: CreatedUserDto): Promise<UserEntity> {
-    return null;
+    return this.userRepository.save(createdUserDto);
   }
 
   findById(id: string) {
