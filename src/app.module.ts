@@ -10,6 +10,7 @@ import { RecipeModule } from './recipe/recipe.module';
 import { ImageModule } from './image/image.module';
 import { PostModule } from './post/post.module';
 import { PlaylistModule } from './playlist/playlist.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { PlaylistModule } from './playlist/playlist.module';
     ImageModule,
     PostModule,
     PlaylistModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [AppService],

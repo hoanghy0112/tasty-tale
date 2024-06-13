@@ -22,7 +22,7 @@ export class PostService {
   findOne(id: string) {
     return this.postRepository.findOne({
       where: { id },
-      relations: { recipes: true },
+      relations: { recipes: true, author: true },
     });
   }
 
