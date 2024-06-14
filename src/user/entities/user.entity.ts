@@ -13,13 +13,13 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: false })
   email: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   address: string;
 
   @Column({ nullable: true })
   photoUrl: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   phone: string;
 
   @Column({ nullable: false })

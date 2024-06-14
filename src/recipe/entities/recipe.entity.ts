@@ -34,7 +34,7 @@ export class RecipeEntity extends BaseEntity {
   })
   steps: StepEntity[];
 
-  @ManyToMany(() => ImageEntity)
+  @ManyToMany(() => ImageEntity, { cascade: true })
   @JoinTable()
   images: ImageEntity[];
 
