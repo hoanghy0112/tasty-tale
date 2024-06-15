@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -36,6 +37,11 @@ export class RecipeController {
     @Request() req: AuthenticatedRequest,
   ) {
     return this.recipeService.update(id, updateRecipeDto, req.user);
+  }
+
+  @Get()
+  async findByName(@Query('name') name: string) {
+    return this.recipeService.findByName(name);
   }
 
   @Get(':id')

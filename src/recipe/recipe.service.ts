@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from 'src/user/dto/user.dto';
 import { UserService } from 'src/user/user.service';
-import { In, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 import { CreateRecipeDto } from './dto/create-recipe/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe/update-recipe.dto';
 import { RecipeEntity } from './entities/recipe.entity';
@@ -56,10 +56,37 @@ export class RecipeService {
     return user.likes.length;
   }
 
+  async findByName(name: string) {
+    const results = await this.recipeRepository.find({
+      where: { title: ILike(`%${name}%`) },
+      relations: {
+        images: true,
+        ingredients: true,
+        steps: {
+          images: true,
+        },
+        user: true,
+        likedUsers: true,
+        reviews: true,
+      },
+    });
+    return results.map((result) => ({
+      ...result,
+      likes: result.likedUsers.length,
+      reviewNum: result.reviews.length,
+      averageRating:
+        result.reviews.reduce((total, review) => total + review.rating, 0) /
+        (result.reviews.length || 1),
+      likedUsers: undefined,
+      reviews: undefined,
+    }));
+  }
+
   async findById(id: string) {
     const result = await this.recipeRepository.findOne({
       where: { id },
       relations: {
+        images: true,
         ingredients: true,
         steps: {
           images: true,
