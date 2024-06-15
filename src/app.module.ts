@@ -11,6 +11,7 @@ import { ImageModule } from './image/image.module';
 import { PostModule } from './post/post.module';
 import { PlaylistModule } from './playlist/playlist.module';
 import { ReviewModule } from './review/review.module';
+import { CookbookModule } from './cookbook/cookbook.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { ReviewModule } from './review/review.module';
     PostModule,
     PlaylistModule,
     ReviewModule,
+    CookbookModule,
   ],
   controllers: [AppController],
   providers: [AppService],
