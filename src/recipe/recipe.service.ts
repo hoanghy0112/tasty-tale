@@ -82,6 +82,27 @@ export class RecipeService {
     }));
   }
 
+  async findOwnRecipe(id: string) {
+    const results = await this.recipeRepository.find({
+      where: { user: { id } },
+      relations: {
+        images: true,
+        likedUsers: true,
+        reviews: true,
+      },
+    });
+    return results.map((result) => ({
+      ...result,
+      likes: result.likedUsers.length,
+      reviewNum: result.reviews.length,
+      averageRating:
+        result.reviews.reduce((total, review) => total + review.rating, 0) /
+        (result.reviews.length || 1),
+      likedUsers: undefined,
+      reviews: undefined,
+    }));
+  }
+
   async findById(id: string) {
     const result = await this.recipeRepository.findOne({
       where: { id },

@@ -44,6 +44,12 @@ export class RecipeController {
     return this.recipeService.findByName(name);
   }
 
+  @Get('own')
+  @UseGuards(JwtAuthGuard)
+  async findMyRecipe(@Request() request: AuthenticatedRequest) {
+    return this.recipeService.findOwnRecipe(request.user.id);
+  }
+
   @Get(':id')
   findById(@Param('id') id: string) {
     return this.recipeService.findById(id);
