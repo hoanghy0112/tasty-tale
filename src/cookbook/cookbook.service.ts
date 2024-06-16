@@ -21,7 +21,7 @@ export class CookbookService {
     return this.cookbookRepository.save({ ...createCookbookDto, recipes });
   }
 
-  findRandom(quantity: number) {
+  findRandom(quantity: number = 3) {
     return this.cookbookRepository
       .createQueryBuilder('cookbook')
       .leftJoinAndSelect('cookbook.recipes', 'recipe')
