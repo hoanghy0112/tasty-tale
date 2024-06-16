@@ -29,6 +29,11 @@ export class CookbookController {
     return this.cookbookService.create(createCookbookDto);
   }
 
+  @Get()
+  findRandom(@Param('quantity') quantity: number) {
+    return this.cookbookService.findRandom(quantity);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.cookbookService.findOne(id);

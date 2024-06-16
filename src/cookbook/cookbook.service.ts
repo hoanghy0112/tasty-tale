@@ -21,6 +21,15 @@ export class CookbookService {
     return this.cookbookRepository.save({ ...createCookbookDto, recipes });
   }
 
+  findRandom(quantity: number) {
+    return this.cookbookRepository
+      .createQueryBuilder('cookbook')
+      .leftJoinAndSelect('cookbook.recipes', 'recipe')
+      .orderBy('RANDOM()')
+      .limit(quantity)
+      .getMany();
+  }
+
   findOne(id: string) {
     return this.cookbookRepository.findOne({
       where: { id },
