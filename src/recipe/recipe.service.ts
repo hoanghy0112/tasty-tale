@@ -63,6 +63,7 @@ export class RecipeService {
       .leftJoinAndSelect('recipe.ingredients', 'ingredient')
       .leftJoinAndSelect('recipe.likedUsers', 'likedUsers')
       .leftJoinAndSelect('recipe.reviews', 'reviews')
+      .leftJoinAndSelect('recipe.user', 'user')
       .orderBy('RANDOM()')
       .limit(quantity)
       .getMany();
