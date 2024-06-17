@@ -8,6 +8,9 @@ export class CookbookEntity extends BaseEntity {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  description: string;
+
   @ManyToOne(() => UserEntity)
   author: UserEntity;
 

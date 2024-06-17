@@ -25,6 +25,7 @@ export class CookbookService {
     return this.cookbookRepository
       .createQueryBuilder('cookbook')
       .leftJoinAndSelect('cookbook.recipes', 'recipe')
+      .leftJoinAndSelect('recipe.images', 'image')
       .orderBy('RANDOM()')
       .limit(quantity)
       .getMany();

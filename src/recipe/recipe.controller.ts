@@ -44,6 +44,11 @@ export class RecipeController {
     return this.recipeService.findByName(name);
   }
 
+  @Get('random')
+  findRandom(@Param('quantity') quantity: number) {
+    return this.recipeService.findRandom(quantity);
+  }
+
   @Get('own')
   @UseGuards(JwtAuthGuard)
   async findMyRecipe(@Request() request: AuthenticatedRequest) {

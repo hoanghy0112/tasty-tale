@@ -56,6 +56,20 @@ export class RecipeService {
     return user.likes.length;
   }
 
+  async findRandom(quantity: number = 3) {
+    const results = await this.recipeRepository
+      .createQueryBuilder('recipe')
+      .leftJoinAndSelect('recipe.images', 'image')
+      .leftJoinAndSelect('recipe.ingredients', 'ingredient')
+      .leftJoinAndSelect('recipe.likedUsers', 'likedUsers')
+      .leftJoinAndSelect('recipe.reviews', 'reviews')
+      .orderBy('RANDOM()')
+      .limit(quantity)
+      .getMany();
+
+    return results.map((result) => this.transform(result));
+  }
+
   async findByName(name: string) {
     const results = await this.recipeRepository.find({
       where: { title: ILike(`%${name}%`) },
@@ -70,16 +84,7 @@ export class RecipeService {
         reviews: true,
       },
     });
-    return results.map((result) => ({
-      ...result,
-      likes: result.likedUsers.length,
-      reviewNum: result.reviews.length,
-      averageRating:
-        result.reviews.reduce((total, review) => total + review.rating, 0) /
-        (result.reviews.length || 1),
-      likedUsers: undefined,
-      reviews: undefined,
-    }));
+    return results.map((result) => this.transform(result));
   }
 
   async findOwnRecipe(id: string) {
@@ -91,16 +96,7 @@ export class RecipeService {
         reviews: true,
       },
     });
-    return results.map((result) => ({
-      ...result,
-      likes: result.likedUsers.length,
-      reviewNum: result.reviews.length,
-      averageRating:
-        result.reviews.reduce((total, review) => total + review.rating, 0) /
-        (result.reviews.length || 1),
-      likedUsers: undefined,
-      reviews: undefined,
-    }));
+    return results.map((result) => this.transform(result));
   }
 
   async findById(id: string) {
@@ -117,16 +113,7 @@ export class RecipeService {
         reviews: true,
       },
     });
-    return {
-      ...result,
-      likes: result.likedUsers.length,
-      reviewNum: result.reviews.length,
-      averageRating:
-        result.reviews.reduce((total, review) => total + review.rating, 0) /
-        (result.reviews.length || 1),
-      likedUsers: undefined,
-      reviews: undefined,
-    };
+    return this.transform(result);
   }
 
   findByIds(ids: string[]) {
@@ -139,5 +126,18 @@ export class RecipeService {
 
   remove(id: string) {
     return this.recipeRepository.softDelete({ id });
+  }
+
+  transform(recipe: RecipeEntity) {
+    return {
+      ...recipe,
+      likes: recipe.likedUsers.length,
+      reviewNum: recipe.reviews.length,
+      averageRating:
+        recipe.reviews.reduce((total, review) => total + review.rating, 0) /
+        (recipe.reviews.length || 1),
+      likedUsers: undefined,
+      reviews: undefined,
+    };
   }
 }
